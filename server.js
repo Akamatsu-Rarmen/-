@@ -146,4 +146,5 @@ getTicket();
 `);
 });
 
-app.listen(3000, () => console.log("started"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("started"));
