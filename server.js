@@ -18,7 +18,17 @@ app.get("/get-ticket", (req, res) => {
 
   const slots = [9,10,11,12,13,14];
 
-  db.all("SELECT slot, COUNT(*) as count FROM tickets GROUP BY slot", (err, rows) => {
+  // 日本時間の今日
+const today = new Date().toLocaleDateString("sv-SE", {
+  timeZone: "Asia/Tokyo"
+});
+
+db.all(
+  `SELECT slot, COUNT(*) as count FROM tickets 
+   WHERE date(created_at, '+9 hours') = ?
+   GROUP BY slot`,
+  [today],
+  (err, rows) => {
 
     let counts = {};
     slots.forEach(s => counts[s] = 0);
